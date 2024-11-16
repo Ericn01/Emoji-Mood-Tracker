@@ -1,0 +1,14 @@
+
+:root{
+    --bg-color: #FAF6E3;
+    --secondary-color: #D8DBBD;
+    --primary-color: #2A3663;
+    --call-to-action-color: #B59F78;
+}
+
+.emoij-mood-grid{
+    display: flex;
+    padding: 0.75rem;
+    border: 1px solid black;
+    justify-content: space-between;
+}
