@@ -1,14 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root{
     --bg-color: #FAF6E3;
     --secondary-color: #D8DBBD;
     --primary-color: #2A3663;
     --call-to-action-color: #B59F78;
+    --body-font-family: 'Raleway', sans-serif;
+}
+h1{
+    margin: 0;
+}
+body{
+    margin: 0px;
+    min-height: 100vh;
+    font-family: var(--body-font-family);
+}
+.content-container{
+    min-width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
 }
 
-.emoij-mood-grid{
+#emoji-mood-grid{
     display: flex;
-    padding: 0.75rem;
+    width: min-content;
+    padding: 0.5rem 0rem;
+    list-style-type: none;
+}
+
+.mood-entry-container{
+    width: 60%;
+    max-width: 800px;
+    border-radius: 1.5rem;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.15);
+    padding: 1.2rem;
+    background-color: #fef1f1;
+    margin: 0.5rem auto;
     border: 1px solid black;
-    justify-content: space-between;
+}
+
+.mood-select{
+    padding: 0.5rem;
+    border: 0.5px solid black;
+    width: min-content;
+    margin: 0.25rem 1.5rem;
+    font-size: 1.5rem;
+    box-shadow: 1px 4px 15px rgba(0,0,0, 0.1);
+}
+
+.mood-select:hover{
+    background-color: var(--call-to-action-color);
+    transform: scale(1.1);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+#mood-submit-btn{
+    border-radius: 0.75rem;
+    background-color: var(--call-to-action-color);
+    font-size: 0.85rem;
+    padding: 0.75rem;
+    width: 200px;
+    margin-top: 0.5rem;
+    border: none;
+}
+
+.mood-entry-value{
+    margin-top: 1.2rem;
+}
+
+#mood-submit-btn:hover{
+    background-color: lightgreen;
+    cursor: pointer;
+    transition: 0.2s;
+    transform: translateY(2px);
+}
+
+.entry-box{
+    display:flex;
+    flex-direction: column;
+    margin: 1.5rem auto;
+    padding: 0.75rem 0.5rem;
+}
+
+label{
+    font-weight: 600;
+}
+/* Mood notes text area styling */
+#mood-notes{
+    width: 100%;
+    max-width: 350px;
+    height: 175px;
+    padding: 1rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#mood-notes:focus{
+    border-color: #007BFF; 
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); 
+    background-color: #ffffff;
+}
+
+
+/* Mood range / value styling */
+
+#mood-value{
+    -webkit-appearance: none; 
+    width: 100%; 
+    max-width: 350px; /* Optional, limits the width */
+    height: 10px;
+    background: #ccc; 
+    border-radius: 8px; 
+    outline: none; 
+    transition: background 0.3s ease; 
+    border: 1px solid #ccc;
+}
+
+#mood-value::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 20px; 
+    height: 20px;
+    background: #007BFF; 
+    border: 2px solid #fff; 
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer; 
+    transition: transform 0.2s ease; 
+}
+
+#mood-value::-moz-range-thumb {
+    width: 20px; 
+    height: 20px;
+    background: #007BFF; 
+    border: 2px solid #fff; 
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer; 
+    transition: transform 0.2s ease; 
+}
+
+#mood-value:hover::-webkit-slider-thumb {
+    transform: scale(1.15);
 }

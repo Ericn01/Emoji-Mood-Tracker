@@ -8,27 +8,29 @@
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-    <main>
-        <section class="mood-entry">
-            <h1> Add a new mood entry! </h1>
+    <main class="content-container">
+        <section class="mood-entry-container">
+            <h1> New Mood Entry </h1>
             <article class="new-mood-entry">
-                <section class="mood-emoji-grid-box"></section>
-                    <ul id="emoji-mood-grid">
-                        <li id="great"> 😎</li>
-                        <li id="happy"> 😊 </li>
-                        <li id="sad"> 😢 </li>
-                        <li id="angry">😡</li>
-                        <li id="sleepy"> 😴</li>
-                        <li id="anxious">😨</li>
+                <section class="entry-box mood-emoji-grid-box">
+                    <label for="emoji-mood-grid"> Select your current mood </label>
+                    <ul id="emoji-mood-grid" class="mood-entry-value">
+                        <li class='mood-select' id="great"> 😎</li>
+                        <li class='mood-select' id="happy"> 😊 </li>
+                        <li class='mood-select'  id="sad"> 😢 </li>
+                        <li class='mood-select' id="angry">😡</li>
+                        <li class='mood-select' id="sleepy"> 😴</li>
+                        <li class='mood-select' id="anxious">😨</li>
                     </ul>
-                <section class="mood-value-box">
+                </section>
+                <section class="entry-box mood-value-box">
                     <label for="mood-value"> How's your mood on a scale of 1-10? </label>
-                    <input type="range" name="mood-value" id="mood-value" min="1.0" max="10.0" step="0.1">
+                    <input type="range" name="mood-value" class="mood-entry-value" id="mood-value" min="1.0" max="10.0" step="0.1">
                 </section>
 
-                <section class="mood-notes-box">
+                <section class="entry-box mood-notes-box">
                     <label for="mood-notes"> Write a note about your mood: </label>
-                    <textarea name="mood-notes" id="mood-notes"></textarea>
+                    <textarea name="mood-notes" id="mood-notes" class="mood-entry-value" placeholder="Write about your mood..."></textarea>
                 </section>
                 <button type="submit" id="mood-submit-btn">
                     Add Mood Entry 🚀
