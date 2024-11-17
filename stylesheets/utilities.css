@@ -1,0 +1,4 @@
+/* Certain elements will be hidden by default */
+.hidden{
+    display: none;
+}

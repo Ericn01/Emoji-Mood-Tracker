@@ -1,47 +1,52 @@
 class MoodEntry{
     constructor(moodValues){
-        this.moodEntryID = Math.floor(Math.random() * 10000) // Creates a random 5 digit integer
+        this.entryID =  0;
         // Setting up the default values for a mood entry object
         this.entryDate = new Date(Date.now()).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}); // Creates the date in format Month Day, Year
-        this.moodEmoji = moodValues['moodEmoji'];
-        this.moodValue = moodValues['moodScalar'];
-        this.moodNotes = moodValues['moodNotes'];
+        this.entryMoodEmoji = moodValues['emojiMood'];
+        this.entryMoodValue = moodValues['moodScalar'];
+        this.entryMoodNotes = moodValues['moodNote'];
+        this.saveToLocalStorage();
     }
 
     // Returns the mood entry data as an object
-    getMoodEntryData(){
+    getMoodEntryValues(){
         return { 
-            moodEntryID: 
-            {
-                entryDate: this.entryDate,
-                entryMoodEmoji: this.moodEmoji,
-                entryMoodValue: this.moodValue,
-                entryMoodNotes: this.moodNotes
-            }
+            entryDate: this.entryDate,
+            entryMoodEmoji: this.entryMoodEmoji,
+            entryMoodValue: this.entryMoodValue,
+            entryMoodNotes: this.entryMoodNotes
         };
     }
 
     saveToLocalStorage(){
         // Retrieve the data in local storage
         const moodLogs = JSON.parse(localStorage.getItem('moodLogs'));
-        moodLogs.push(this.getMoodEntryData());
+        // Generate new entry ID if there are already mood logs.
+        if (moodLogs != null){
+            const moodLogIDs = Object.keys(moodLogs);
+            if (moodLogIDs.length > 0){
+                this.entryID = Math.max(...moodLogIDs.map(Number)) + 1;
+            } 
+        }
+        moodLogs[this.entryID] = this.getMoodEntryValues(); // Append the data.
         // Save the updated data in local storage
-        localStorage.setItem(JSON.stringify(moodLogs)); 
-    }
+        localStorage.setItem('moodLogs', JSON.stringify(moodLogs)); 
+    };
 
     editMoodEntry(updatedMoodValues){
-        for (const entry of Object.entries(updatedMoodValues)){
-
+        if (updatedMoodValues.entryMoodEmoji) {
+            this.entryMoodEmoji = updatedMoodValues.entryMoodEmoji;
+          }
+        if (updatedMoodValues.entryMoodValue !== undefined) {
+            this.entryMoodValue = updatedMoodValues.entryMoodValue;
         }
-    }
-
-    renderMoodEntryLog(){
-        const moodEntryContainer = document.querySelector('.mood-entry-logs');
-        const entryValuesHTML = document.querySelectorAll('.log');
-
-        entryValuesHTML.forEach( (item) => {
-            
-        })
+        if (updatedMoodValues.entryMoodNotes !== undefined) {
+            this.entryMoodNotes = updatedMoodValues.entryMoodNotes;
+        }
+        const moodLogs = JSON.parse(localStorage.getItem('moodLogs'));
+        moodLogs[this.entryID] = this.getMoodEntryValues();
+        localStorage.setItem('moodLogs', JSON.stringify(moodLogs));
     }
 
 }

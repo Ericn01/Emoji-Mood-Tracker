@@ -1,0 +1,23 @@
+/* Warning message box styling */
+.warning-message {
+    width: 100%; 
+    max-width: 475px; 
+    padding: 12px; 
+    margin: 16px 0;
+    font-size: 16px; 
+    color: #856404; 
+    background-color: #fff3cd; 
+    border: 1px solid #ffeeba; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+
+.warning-message svg {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    fill: #856404;
+}

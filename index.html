@@ -15,20 +15,28 @@
                 <section class="entry-box mood-emoji-grid-box">
                     <label for="emoji-mood-grid"> Select your current mood<span style="color:red;font-weight:bolder;font-size:20px;">*</span> </label>
                     <ul id="emoji-mood-grid" class="mood-entry-value">
-                        <li class='mood-select' id="great"> 😎</li>
-                        <li class='mood-select' id="happy"> 😊 </li>
-                        <li class='mood-select'  id="sad"> 😢 </li>
+                        <li class='mood-select' id="relaxed">😎</li>
+                        <li class='mood-select' id="happy">😊</li>
+                        <li class='mood-select'  id="sad">😢</li>
                         <li class='mood-select' id="angry">😡</li>
-                        <li class='mood-select' id="sleepy"> 😴</li>
+                        <li class='mood-select' id="sleepy">😴</li>
                         <li class='mood-select' id="anxious">😨</li>
                     </ul>
+                    <article class="emoji-emotion-text">
+                        <label for="great"> Relaxed </label>
+                        <label for="happy"> Happy </label>
+                        <label for="sad"> Sad </label>
+                        <label for="angry"> Angry </label>
+                        <label for="sleepy">Sleepy</label>
+                        <label for="anxious">Anxious</label>
+                    </article>
                 </section>
                 <section class="entry-box mood-value-box">
-                    <label for="mood-value"> How's your mood on a scale of 1-10?<span style="color:red;font-weight:bolder;font-size:20px;">*</span> </label>
+                    <label for="mood-value"> How Would You Rate Your Mood? <span style="color:red;font-weight:bolder;font-size:20px;">*</span> </label>
                     <section id="slider-container">
-                        <span> <b> 1.0 </b> </span>
+                        <span> <b> 1 </b> </span>
                         <input type="range" name="mood-value" class="mood-entry-value" id="mood-value" min="1.0" max="10.0" step="0.1">
-                        <span> <b> 10.0 </b> </span>
+                        <span> <b> 10 </b> </span>
                     </section>
                     <article id="mood-value-modal"></article>
                 </section>
@@ -48,10 +56,6 @@
             </article>
         </section>
         <section class="mood-entry-logs">
-            <article id='entryDate' class="log entry-date"></article>
-            <article id='moodEmoji' class="log mood-selection"></article>
-            <article id='moodScalar' class="log mood-value"></article>
-            <article id='moodNotes' class="log moodNotes"></article>
         </section>
     </main>
 </body>

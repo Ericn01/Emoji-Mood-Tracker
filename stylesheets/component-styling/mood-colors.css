@@ -1,0 +1,63 @@
+ /* Color mapping for each mood */
+ #relaxed {
+    background-color: #a8e6cf; /* Soft mint green - calming and peaceful */
+  }
+  #relaxed:hover {
+    background-color: #8ed7c0;
+  }
+  
+  #happy {
+    background-color: #ffd3b6; /* Warm peach - cheerful and bright */
+  }
+  #happy:hover {
+    background-color: #ffbf9b;
+  }
+  
+  #sad {
+    background-color: #bcd4e6; /* Muted blue - somber but gentle */
+  }
+  #sad:hover {
+    background-color: #a3c6de;
+  }
+  
+  #angry {
+    background-color: #ffb3b3; /* Soft red - energetic but not harsh */
+  }
+  #angry:hover {
+    background-color: #ff9999;
+  }
+  
+  #sleepy {
+    background-color: #d4c4e9; /* Soft purple - dreamy and relaxing */
+  }
+  #sleepy:hover {
+    background-color: #c2aee0;
+  }
+  
+  #anxious {
+    background-color: #ffe0ac; /* Muted yellow - alert but not overwhelming */
+  }
+  #anxious:hover {
+    background-color: #ffd588;
+  }
+  
+
+   /* Color indicators for log items */
+ .log-item[data-mood="relaxed"] {
+    border-left-color: #a8e6cf;
+  }
+  .log-item[data-mood="happy"] {
+    border-left-color: #ffd3b6;
+  }
+  .log-item[data-mood="sad"] {
+    border-left-color: #bcd4e6;
+  }
+  .log-item[data-mood="angry"] {
+    border-left-color: #ffb3b3;
+  }
+  .log-item[data-mood="sleepy"] {
+    border-left-color: #d4c4e9;
+  }
+  .log-item[data-mood="anxious"] {
+    border-left-color: #ffe0ac;
+  }

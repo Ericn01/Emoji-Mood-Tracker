@@ -1,0 +1,35 @@
+/* Emoji mood grid and selection styles */
+#emoji-mood-grid {
+    display: flex;
+    width: min-content;
+    padding: 0.5rem 0rem;
+    list-style-type: none;
+}
+
+.mood-select {
+    padding: 0.6rem;
+    width: min-content;
+    margin-right: 3rem;
+    font-size: 1.4rem;
+    box-shadow: 1px 4px 15px rgba(0,0,0, 0.1);
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.mood-select:hover {
+    transform: scale(1.1);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.mood-select.selected {
+    transform: scale(1.15);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    background-color: lightgreen;
+}
+
+.emoji-emotion-text{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
