@@ -1,0 +1,106 @@
+.filter-controls{
+    width: 280px;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    position: sticky;
+    top: 1.5rem;
+}
+
+.filter-group{
+    margin-bottom: 1.5rem;
+}
+.filter-group:last-child{
+    margin-bottom: 0;
+}
+
+.filter-group label{
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+}
+
+/* Date filter styling */
+
+#date-filter{
+    appearance: none;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 32px 8px 12px;
+    font-size: 14px;
+    color: #1a202c;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+}
+
+#date-filter:hover{
+    border-color: #cbd5e0;
+    background-color: #f7fafc;  
+}
+
+#date-filter:focus, #emoji-filter:focus, .range-inputs input[type="number"]:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.25);
+    transition: all 0.2s ease;
+}
+#date-filter:disabled{
+    background-color: #f1f5f9;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+/* Select element (emoji filter) styling */
+#emoji-filter{
+    height: 2.5rem;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    color: #374151;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding: 0.5rem 0.75rem;
+    min-width: 150px;
+}
+
+
+#emoji-filter[multiple]{
+    height: auto;
+    min-height: 120px;
+}
+
+
+/* Number element styling*/
+.range-inputs{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.range-inputs input[type="number"]{
+    width: 80px;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: #1f2937;
+}
+
+
+.range-inputs span {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.filter-heading{
+    margin: 0;
+    margin-bottom: 1.2rem;
+    padding: 0;
+}

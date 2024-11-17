@@ -9,13 +9,13 @@ const moodLogController = new MoodLogController(moodEntryLogs, moodEmojiSelectio
 const setupMoodLogFilterControls = () => {
     const dateFilter = document.querySelector('#date-filter');
     dateFilter.addEventListener('change', (event) => {
-        moodLogController.setFilter('dateRange', event.target.value);
+        moodLogController.handleSetFilter('dateRange', event.target.value);
     });
 
     const moodRangeFilter = document.querySelector('#mood-range-filter');
     moodRangeFilter.addEventListener('input', (event) => {
     const [min, max] = event.target.value.split(',');
-        moodLogController.setFilter('moodValueRange', { 
+        moodLogController.handleSetFilter('moodValueRange', { 
             min: parseFloat(min), 
             max: parseFloat(max) 
         });
@@ -25,7 +25,7 @@ const setupMoodLogFilterControls = () => {
     emojiFilter.addEventListener('change', (event) => {
         const selectedEmojis = Array.from(event.target.selectedOptions)
             .map(option => option.value);
-    moodLogController.setFilter('selectedEmojis', selectedEmojis);
+    moodLogController.handleSetFilter('selectedEmojis', selectedEmojis);
     });
 }
 

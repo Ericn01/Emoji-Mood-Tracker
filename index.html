@@ -55,11 +55,11 @@
                 </section>
             </article>
         </section>
+        <h2>Mood History</h2>
         <section class="mood-logs-section">
-            <h2>Mood History</h2>
-
             <!-- Filter Controls -->
             <section class="filter-controls">
+                <h3 class="filter-heading"> Filter your mood entries </h3>
                 <!-- Date Range Filter -->
                 <section class="filter-group">
                     <label for="date-filter">Time Period:</label>
@@ -74,20 +74,20 @@
 
                 <!-- Mood Value Range Filter -->
                 <section class="filter-group">
-                    <label for="mood-range-filter">Mood Intensity Range:</label>
+                    <label for="mood-range-filter">Mood Rating Range:</label>
                     <section class="range-inputs" id="mood-range-filter">
                         <input type="number" 
                                id="mood-min" 
                                min="0" 
                                max="10" 
-                               step="0.1" 
+                               step="0.5" 
                                value="0">
                         <span>to</span>
                         <input type="number" 
                                id="mood-max" 
                                min="0" 
                                max="10" 
-                               step="0.1" 
+                               step="0.5" 
                                value="10">
                     </section>
                 </section>
@@ -105,9 +105,10 @@
                     </select>
                 </section>
             </section>
+            <section class="mood-entry-logs">
+            </section>
         </section>
-        <section class="mood-entry-logs">
-        </section>
+
     </main>
 </body>
 </html>

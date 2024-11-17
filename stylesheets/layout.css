@@ -26,3 +26,10 @@
 }
 
 
+.mood-logs-section{
+    display: flex;
+    gap: 2rem;
+    padding: 1.5rem;
+    justify-content: center;
+}
+

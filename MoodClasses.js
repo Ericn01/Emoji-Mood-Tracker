@@ -57,6 +57,10 @@ export class MoodStorage{
         entries[id] = data; // Appends or modifies an entry.
         this.saveEntries(entries);
     }
+    deleteEntries(id){
+        const entries = this.getEntries();
+        delete entries[id];
+    }
 };
 
 // Filtering functionality for the mood entries
@@ -245,10 +249,11 @@ export class MoodLogController {
         return Object.entries(data).map(([id, entry]) => new MoodEntry(id, entry));
     }
 
-    setFilter(type, value){
+    handleSetFilter(type, value){
         this.filter.setFilter(type, value);
         this.render();
     }
+
     handleEdit(moodEntry){
         moodEntry.classList.add('editing');
 
@@ -275,6 +280,10 @@ export class MoodLogController {
         editBtn.style.display = 'block';
         saveBtn.style.display = 'none';
         cancelBtn.style.display = 'none';
+    }
+
+    handleDelete(entryID){
+
     }
     
     render(){
