@@ -11,7 +11,9 @@
 }
 
 #mood-submit-btn:hover{
-    
+    background-color: lightgreen;
+    transition: 0.5s ease; 
+    cursor: pointer;
 }
 
 /* Mood notes text area styling */

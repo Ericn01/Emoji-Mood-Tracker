@@ -35,7 +35,7 @@
                     <label for="mood-value"> How Would You Rate Your Mood? <span style="color:red;font-weight:bolder;font-size:20px;">*</span> </label>
                     <section id="slider-container">
                         <span> <b> 1 </b> </span>
-                        <input type="range" name="mood-value" class="mood-entry-value" id="mood-value" min="1.0" max="10.0" step="0.1">
+                        <input type="range" name="mood-value" class="mood-entry-value" id="mood-value" min="1.0" max="10.0" step="0.5">
                         <span> <b> 10 </b> </span>
                     </section>
                     <article id="mood-value-modal"></article>
@@ -54,6 +54,57 @@
                     </svg>
                 </section>
             </article>
+        </section>
+        <section class="mood-logs-section">
+            <h2>Mood History</h2>
+
+            <!-- Filter Controls -->
+            <section class="filter-controls">
+                <!-- Date Range Filter -->
+                <section class="filter-group">
+                    <label for="date-filter">Time Period:</label>
+                    <select id="date-filter">
+                        <option value="all">All Time</option>
+                        <option value="day">Today</option>
+                        <option value="week">Past Week</option>
+                        <option value="month">This Month</option>
+                        <option value="year">This Year</option>
+                    </select>
+                </section>
+
+                <!-- Mood Value Range Filter -->
+                <section class="filter-group">
+                    <label for="mood-range-filter">Mood Intensity Range:</label>
+                    <section class="range-inputs" id="mood-range-filter">
+                        <input type="number" 
+                               id="mood-min" 
+                               min="0" 
+                               max="10" 
+                               step="0.1" 
+                               value="0">
+                        <span>to</span>
+                        <input type="number" 
+                               id="mood-max" 
+                               min="0" 
+                               max="10" 
+                               step="0.1" 
+                               value="10">
+                    </section>
+                </section>
+
+                <!-- Emoji Filter -->
+                <section class="filter-group">
+                    <label for="emoji-filter">Mood Types:</label>
+                    <select id="emoji-filter" multiple>
+                        <option value="relaxed">Relaxed 😌</option>
+                        <option value="happy">Happy 😊</option>
+                        <option value="sad">Sad 😢</option>
+                        <option value="angry">Angry 😡</option>
+                        <option value="sleepy">Sleepy 😴</option>
+                        <option value="anxious">Anxious 😰</option>
+                    </select>
+                </section>
+            </section>
         </section>
         <section class="mood-entry-logs">
         </section>
