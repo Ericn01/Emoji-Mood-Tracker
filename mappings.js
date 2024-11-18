@@ -6,20 +6,17 @@ const getMoodRatingColor = (moodRating) =>{
     // 6.0 -> 8.0 (lime / #bfff00)
     // 8.0 -> 10.0 (green / #00ff00)
     /* Given this, how can I create an algorithm that returns a hex color code with the correct color*/
-
-    let colorHex = '#000000';
     if (moodRating <= 2.0){
-        colorHex = '#ff00000';
+        return '#ff0000';
     } else if (moodRating > 2.0 && moodRating <= 4.0){
-        colorHex = '#ffa500';
+        return '#ffa500';
     } else if (moodRating > 4.0 && moodRating <= 6.0){
-        colorHex = '#ffff00';
+        return '#ffff00';
     } else if (moodRating > 6.0 && moodRating <= 8.0){
-        colorHex = '#bfff00';
+        return '#bfff00';
     } else{
-        colorHex = '00ff00';
+        return '#00ff00';
     }
-    return colorHex;
 }
 
 const getMoodValueMappings = () => {

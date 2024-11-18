@@ -12,6 +12,7 @@ export class MoodValueSlider {
       this.moodMappings = getMoodValueMappings();
       // 2. Set up events
       this.setupEventListeners();
+      this.handleSliderTickDisplay();
     }
   
     // 3. Methods other code will use
@@ -22,7 +23,7 @@ export class MoodValueSlider {
         this.sliderRange.style.setProperty('--thumb-position', `${percentage}%`);
     }
 
-    handleSliderTextDisplay(){
+    handleSliderTickDisplay(){
         const ticksContainer = document.querySelector('.slider-ticks-group');
         // Slider tick mark dynamic generation
         for (let i = this.minValue; i <= this.maxValue; i++){
@@ -33,31 +34,42 @@ export class MoodValueSlider {
             const tickLabel = document.createElement('span');
             tickLabel.classList.add('slider-tick-label')
             tickLabel.textContent = i;
+
             tick.appendChild(tickLabel);
 
             ticksContainer.appendChild(tick);
         }
     }
-    
-  
-    // 4. DOM handling in one place
-    render() {
-      this.container.innerHTML = '';
-      this.todos.forEach((todo, index) => {
-        const div = document.createElement('div');
-        div.textContent = todo.text;
-        if (todo.done) div.style.textDecoration = 'line-through';
-        this.container.appendChild(div);
-      });
+
+    // Modifies the styling of ticks that are overlapped by the slider
+    handleTickStyling(moodValue){
+        const tickLabels = document.querySelectorAll('.slider-tick-label');
+        for (const label of tickLabels){
+            const tickNumber = parseInt(label.textContent);
+            // Special tick styling if the current value is equal to that of the tick.
+            if (moodValue === tickNumber){
+                label.style.setProperty('font-weight', 'bold');
+                label.style.setProperty('color', 'navy');
+            } else{
+                label.style.setProperty('font-weight', 'normal');
+                label.style.setProperty('color', '#333');
+            }
+        }
+    }
+
+    handleSliderBackgroundColor(moodValue){
+        const matchingColor = this.moodMappings[moodValue]['colorHex'];
+        this.sliderRange.style.setProperty('background-color', matchingColor);
     }
   
     // 5. Event handling in one place
     setupEventListeners() {
       this.sliderRange.addEventListener('input', (event) => {
-        const moodValue = event.target.value;
+        const moodValue = parseInt(event.target.value);
         this.moodValue = moodValue; // update the mood value
         this.handleSliderEmoji(moodValue);
-        this.handleSliderTextDisplay();
+        this.handleSliderBackgroundColor(moodValue);
+        this.handleTickStyling(moodValue);
       });
     }
   }
