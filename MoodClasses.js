@@ -1,4 +1,5 @@
 import { getMoodRatingColor } from "./mappings.js";
+import { ModalManager } from "./ModalManager.js";
 
 /** 
  * Represents a single mood entry
@@ -117,30 +118,39 @@ export class MoodFilter{
 
 // Renders a single entry. Also controls adding event listeners.
 export class MoodEntryView {
-    constructor(emojiSelections){
+    constructor(emojiSelections) {
         this.emojiSelections = emojiSelections;
+        this.modalManager = new ModalManager();
     }
     // Combines all the rendering methods together
-    createEntry(entry, onEdit, onSave, onCancel, onDelete){
-        const moodEntry = document.createElement('article');
-        moodEntry.className = 'log-item';
-        moodEntry.setAttribute('data-entry-id', entry.id);
-        moodEntry.setAttribute('data-mood', entry.emojiMood[0])
+    createEntry(entry, onEdit, onDelete){
+        const moodEntryHTML = document.createElement('article');
+        moodEntryHTML.className = 'log-item';
+        moodEntryHTML.setAttribute('data-entry-id', entry.id);
+        moodEntryHTML.setAttribute('data-mood', entry.emojiMood[0])
         
-        moodEntry.innerHTML = this.getTemplate(entry);
-        this.colorLogMoodValue(moodEntry, entry);
-        this.addControlsEventListeners(moodEntry, entry, onEdit, onSave, onCancel, onDelete)
+        moodEntryHTML.innerHTML = this.getTemplate(entry);
+        this.colorLogMoodValue(moodEntryHTML, entry);
+        this.addControlsEventListeners(moodEntryHTML, entry, onEdit, onDelete)
 
-        return moodEntry;
+        return moodEntryHTML;
     }
     getTemplate(entry){
+        const noteOverflow = entry.notes.length >= 55;
+        const entryNotesSubstring = noteOverflow ? `${entry.notes.substring(0, 55)}...` : entry.notes;
         return `
-        <span class="log-date">${entry.date}</span>
-        <span class="log-emoji">${entry.emojiMood[1]}</span>
-        <span class="log-mood-value">${entry.moodValue.toFixed(1)}</span>
-        <span class="log-note">${entry.notes || 'No note'}</span>
-        ${this.getEditFormTemplate(entry)}
-        ${this.getControlsTemplate()}
+        <section class="log-top-section">
+            <span class="log-date">${entry.date}</span>
+            <span class="log-emoji">${entry.emojiMood[1]}</span>
+            <span class="log-mood-value">${entry.moodValue.toFixed(1)}</span>
+            <div class="edit-controls">
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </div>
+        </section>
+        <section class="log-bottom-section">
+            <span class="log-note">${entryNotesSubstring || 'No note'}</span> 
+        </section>
         `;
     }
 
@@ -151,85 +161,115 @@ export class MoodEntryView {
         } else {console.log('The specified element doesn\'t exit')}
     }
 
-    getEditFormTemplate(entry){
-        return `
-        <form class="edit-form">
-          <select class="edit-emoji" required>
-            ${Array.from(this.emojiSelections).map(emoji => `
-              <option value="${emoji.id},${emoji.textContent}" 
-                ${entry.emojiMood[0] === emoji.id ? 'selected' : ''}>
-                ${emoji.textContent}
-              </option>
-            `).join('')}
-          </select>
-          <input type="number" 
-            class="edit-mood-value" 
-            min="0" 
-            max="10" 
-            step="0.1" 
-            value="${entry.moodValue}" 
-            required
-          >
-          <input type="text" 
-            class="edit-note" 
-            value="${entry.notes || ''}" 
-            placeholder="Add a note..."
-          >
-        </form>
-      `;
-    }
-    getControlsTemplate(){
-        return `
-      <div class="edit-controls">
-        <button class="edit-btn">Edit</button>
-        <button class="save-btn" style="display: none;">Save</button>
-        <button class="cancel-btn" style="display: none;">Cancel</button>
-        <button class="delete-btn">Delete</button>
-      </div>`
-    };
-
-    addControlsEventListeners(moodEntry, entry, onEdit, onSave, onCancel, onDelete) {
+    addControlsEventListeners(moodEntry, entry, onEdit, onDelete) {
         const editBtn = moodEntry.querySelector('.edit-btn');
-        const saveBtn = moodEntry.querySelector('.save-btn');
-        const cancelBtn = moodEntry.querySelector('.cancel-btn');
         const deleteBtn = moodEntry.querySelector('.delete-btn');
     
-        editBtn.addEventListener('click', () => onEdit(moodEntry));
-        saveBtn.addEventListener('click', () => this.handleSave(moodEntry, entry.id, onSave));
-        cancelBtn.addEventListener('click', () => onCancel(moodEntry));
-        deleteBtn.addEventListener('click', (event) => {
-            event.preventDefault();
-            if (confirm('Are you sure you want to delete this entry?')){
-                this.handleDelete(moodEntry, entry.id, onDelete);
+        editBtn.addEventListener('click', () => this.showEditModal(entry, onEdit));
+        deleteBtn.addEventListener('click', () => this.showDeleteModal(entry, onDelete));
+    }
+
+    getEditModalTemplate(entry){
+        return `
+        <div class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Mood Entry</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="edit-form">
+                    <div class="form-group">
+                        <label>Mood</label>
+                        <select class="edit-emoji" required>
+                            ${Array.from(this.emojiSelections).map(emoji => `
+                                <option value="${emoji.id},${emoji.textContent}" 
+                                    ${entry.emojiMood[0] === emoji.id ? 'selected' : ''}>
+                                    ${emoji.textContent}
+                                </option>
+                            `).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <input type="number" 
+                            class="edit-mood-value" 
+                            min="0" 
+                            max="10" 
+                            step="1.0" 
+                            value="${entry.moodValue}" 
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea class="edit-note" 
+                            placeholder="Add a note..."
+                            rows="4"
+                        >${entry.notes || ''}</textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Save Changes</button>
+            </div>
+        </div>
+        </div>`
+    }
+
+    getDeleteConfirmationTemplate(entry) {
+        return `
+        <div class="modal-overlay delete-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Delete Entry</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this entry?</p>
+                    <div class="entry-preview">
+                        <span class="preview-emoji">${entry.emojiMood[1]}</span>
+                        <span class="preview-date">${entry.date}</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="cancel-btn">Cancel</button>
+                    <button class="confirm-delete-btn">Delete Entry</button>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    showEditModal(entry, onSave) {
+        const modalHTML = this.getEditModalTemplate(entry);
+        const modal = this.modalManager.showModal(modalHTML, () => {
+            const form = modal.querySelector('.edit-form');
+            if (!form) return;
+
+            const [emojiId, emojiText] = form.querySelector('.edit-emoji').value.split(',');
+            const moodValue = parseFloat(form.querySelector('.edit-mood-value').value);
+            const notes = form.querySelector('.edit-note').value;
+
+            // Data validation
+            if (!emojiId || isNaN(moodValue)) {
+                throw new Error('Invalid form data');
             }
-        })
+
+            const updatedValues = {
+                entryDate: new Date(),
+                entryMoodEmoji: [emojiId, emojiText],
+                entryMoodValue: moodValue,
+                entryMoodNotes: notes
+            };
+
+            onSave(entry.id, updatedValues);
+        });
     }
 
-    handleSave(moodEntry, entryId, onSave) {
-        const form = moodEntry.querySelector('.edit-form');
-        const [emojiId, emojiText] = form.querySelector('.edit-emoji').value.split(',');
-        const moodValue = parseFloat(form.querySelector('.edit-mood-value').value);
-
-        // Data validation first
-        if (!emojiId || isNaN(moodValue)) {
-            throw new Error('Invalid form data');
-        }
-
-        const updatedValues = {
-          entryDate: new Date(),
-          entryMoodEmoji: [emojiId, emojiText],
-          entryMoodValue: parseFloat(form.querySelector('.edit-mood-value').value),
-          entryMoodNotes: form.querySelector('.edit-note').value
-        };
-    
-        onSave(entryId, updatedValues);
-    }
-
-    handleDelete(moodEntry, entryId, onDelete) {
-        // Remove the entry from the DOM
-        moodEntry.remove();
-        // Call the controller's delete method
-        onDelete(entryId);
+    showDeleteModal(entry, onDelete) {
+        const modalHTML = this.getDeleteConfirmationTemplate(entry);
+        this.modalManager.showModal(modalHTML, () => onDelete(entry.id));
     }
 }
 /**
@@ -244,7 +284,7 @@ export class MoodLogController {
         this.container = container;
         this.storage = new MoodStorage();
         this.filter = new MoodFilter();
-        this.entryView = new MoodEntryView(emojiSelections, (id) => this.handleDelete(id));
+        this.entryView = new MoodEntryView(emojiSelections);
         // Load all the entries from local storage
         this.entries = this.loadEntries();
     }
@@ -277,47 +317,22 @@ export class MoodLogController {
         this.render();
     }
 
-    handleEdit(moodEntry){
-        moodEntry.classList.add('editing');
-
-        const editBtn = moodEntry.querySelector('.edit-btn');
-        const saveBtn = moodEntry.querySelector('.save-btn');
-        const cancelBtn = moodEntry.querySelector('.cancel-btn');
-
-        editBtn.style.display = 'none';
-        saveBtn.style.display = 'block';
-        cancelBtn.style.display = 'block';
-    }
-    handleSave(entryID, updatedValues){
+    handleEdit(entryId, updatedValues) {
         const entryData = {
-            entryDate: updatedValues.entryDate || new Date(),
+            entryDate: updatedValues.entryDate,
             entryMoodEmoji: updatedValues.entryMoodEmoji,
             entryMoodValue: updatedValues.entryMoodValue,
             entryMoodNotes: updatedValues.entryMoodNotes
         };
 
-        const updatedEntry = new MoodEntry(entryID, entryData);
-
-        this.storage.updateEntries(entryID, updatedEntry.toJSON());
+        this.storage.updateEntries(entryId, entryData);
         this.entries = this.loadEntries();
-        this.render(); 
+        this.render();
     }
 
-    handleCancel(moodEntry){
-        moodEntry.classList.remove('editing');
-        const editBtn = moodEntry.querySelector('.edit-btn');
-        const saveBtn = moodEntry.querySelector('.save-btn');
-        const cancelBtn = moodEntry.querySelector('.cancel-btn');
-    
-        editBtn.style.display = 'block';
-        saveBtn.style.display = 'none';
-        cancelBtn.style.display = 'none';
-    }
-
-    handleDelete(entryID){
-        console.log(entryID); // Testing --> Get the ID
-        this.storage.deleteEntries(entryID);
-        this.entries = this.entries.filter( entry => entry.id !== entryID);
+    handleDelete(entryId) {
+        this.storage.deleteEntries(entryId); // Using the existing method name
+        this.entries = this.loadEntries();
         this.render();
     }
     
@@ -334,18 +349,14 @@ export class MoodLogController {
             return;
         }
 
-        filteredEntries
-        .sort( (a, b) => a.date - b.date ) // Show most recent entries first
+        filteredEntries.sort( (a, b) => a.date - b.date ) // Show most recent entries first
         .forEach( (entry) => {
                 const moodEntry = this.entryView.createEntry(
                     entry, 
-                    (entry) => this.handleEdit(entry), 
-                    (id, values) => this.handleSave(id, values), 
-                    (entry) => this.handleCancel(entry),
+                    (id, values) => this.handleEdit(id, values), 
                     (id) => this.handleDelete(id)
                 );
                 this.container.appendChild(moodEntry);
             });
     }
 }
-
