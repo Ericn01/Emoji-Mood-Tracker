@@ -117,12 +117,11 @@ export class MoodFilter{
 
 // Renders a single entry. Also controls adding event listeners.
 export class MoodEntryView {
-    constructor(emojiSelections, onDelete){
+    constructor(emojiSelections){
         this.emojiSelections = emojiSelections;
-        this.onDelete = onDelete;
     }
     // Combines all the rendering methods together
-    createEntry(entry, onEdit, onSave, onCancel){
+    createEntry(entry, onEdit, onSave, onCancel, onDelete){
         const moodEntry = document.createElement('article');
         moodEntry.className = 'log-item';
         moodEntry.setAttribute('data-entry-id', entry.id);
@@ -130,7 +129,7 @@ export class MoodEntryView {
         
         moodEntry.innerHTML = this.getTemplate(entry);
         this.colorLogMoodValue(moodEntry, entry);
-        this.addControlsEventListeners(moodEntry, entry, onEdit, onSave, onCancel)
+        this.addControlsEventListeners(moodEntry, entry, onEdit, onSave, onCancel, onDelete)
 
         return moodEntry;
     }
@@ -189,7 +188,7 @@ export class MoodEntryView {
       </div>`
     };
 
-    addControlsEventListeners(moodEntry, entry, onEdit, onSave, onCancel) {
+    addControlsEventListeners(moodEntry, entry, onEdit, onSave, onCancel, onDelete) {
         const editBtn = moodEntry.querySelector('.edit-btn');
         const saveBtn = moodEntry.querySelector('.save-btn');
         const cancelBtn = moodEntry.querySelector('.cancel-btn');
@@ -198,18 +197,12 @@ export class MoodEntryView {
         editBtn.addEventListener('click', () => onEdit(moodEntry));
         saveBtn.addEventListener('click', () => this.handleSave(moodEntry, entry.id, onSave));
         cancelBtn.addEventListener('click', () => onCancel(moodEntry));
-        deleteBtn.addEventListener('click', () => (event) => {
+        deleteBtn.addEventListener('click', (event) => {
             event.preventDefault();
             if (confirm('Are you sure you want to delete this entry?')){
-                this.handleDelete(moodEntry, entry.id);
+                this.handleDelete(moodEntry, entry.id, onDelete);
             }
         })
-    }
-    handleDelete(moodEntry, entryId) {
-        // Remove the entry from the DOM
-        moodEntry.remove();
-        // Call the controller's delete method
-        this.onDelete(entryId);
     }
 
     handleSave(moodEntry, entryId, onSave) {
@@ -232,11 +225,11 @@ export class MoodEntryView {
         onSave(entryId, updatedValues);
     }
 
-    handleDelete(moodEntry, entryId) {
+    handleDelete(moodEntry, entryId, onDelete) {
         // Remove the entry from the DOM
         moodEntry.remove();
         // Call the controller's delete method
-        this.onDelete(entryId);
+        onDelete(entryId);
     }
 }
 /**
@@ -322,6 +315,7 @@ export class MoodLogController {
     }
 
     handleDelete(entryID){
+        console.log(entryID); // Testing --> Get the ID
         this.storage.deleteEntries(entryID);
         this.entries = this.entries.filter( entry => entry.id !== entryID);
         this.render();
@@ -341,14 +335,14 @@ export class MoodLogController {
         }
 
         filteredEntries
-        .sort( (a, b) => b.date - a.date )
+        .sort( (a, b) => a.date - b.date ) // Show most recent entries first
         .forEach( (entry) => {
-                const moodEntry = this.entryView.createEntry
-                (
+                const moodEntry = this.entryView.createEntry(
                     entry, 
                     (entry) => this.handleEdit(entry), 
                     (id, values) => this.handleSave(id, values), 
-                    (entry) => this.handleCancel(entry)
+                    (entry) => this.handleCancel(entry),
+                    (id) => this.handleDelete(id)
                 );
                 this.container.appendChild(moodEntry);
             });
