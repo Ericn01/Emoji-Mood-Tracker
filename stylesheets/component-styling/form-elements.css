@@ -40,10 +40,31 @@
     background-color: #ffffff;
 }
 
-/* Mood range / value styling */
+
+/* Slider container styling */
+
+#slider-container{
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+#slider-container::before {
+    content: attr(data-emoji);
+    position: absolute;
+    top: -5px;
+    left: calc(var(--thumb-position, 50%) + 2px);
+    transform: translateX(-50%);
+    font-size: 24px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Mood slider / value styling */
 
 #mood-value{
     -webkit-appearance: none; 
+    position: relative;
     width: 100%; 
     max-width: 400px; /* Optional, limits the width */
     height: 12px;
@@ -51,7 +72,6 @@
     border-radius: 8px; 
     outline: none; 
     transition: background 0.3s ease; 
-    border: 1px solid #ccc;
 }
 
 #mood-value::-webkit-slider-thumb, #mood-value::-moz-range-thumb {
@@ -62,15 +82,7 @@
     border-radius: 50%;
     background: none;
     position: relative;
-}
-
-/* Map an emoji to the slider thumb*/
-#mood-value::before{
-    content: attr(mood-emoji);
-    position: absolute;
-    top: -100px; 
-    left: calc(var(--thumb-position, 50%) - 20px);
-    font-size: 24px;
+    border: none;
 }
 
 #mood-value:hover::-webkit-slider-thumb {
@@ -106,12 +118,18 @@
 
 /* Slider text at that valie*/
 .mood-text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: 30px;
-    width: 55px;
+    width: 100px;
     height: 25px;
     border: 2px solid #ddd;
     border-radius: 5px;
-    box-shadow: 2px 2px 8px black; 
+    padding: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: lightblue;
 }
 
 .mood-text:hover{

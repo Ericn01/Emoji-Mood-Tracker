@@ -11,16 +11,24 @@ export class MoodValueSlider {
       this.moodValue = parseInt(sliderRange.value); // default value
       this.moodMappings = getMoodValueMappings();
       // 2. Set up events
+      this.initializeSlider();
       this.setupEventListeners();
       this.handleSliderTickDisplay();
     }
-  
+    // Sets up the default value and the rendering of elements on page load
+    initializeSlider(){
+        this.handleSliderEmoji(this.moodValue);
+        this.handleTickStyling(this.moodValue);
+        this.handleSliderTextDisplay(this.moodValue);
+        this.handleSliderBackgroundColor(this.moodValue);
+    }
     // 3. Methods other code will use
     handleSliderEmoji(moodValue){
-        const percentage = ((moodValue - this.minValue) / (moodValue - this.maxValue) * 100);
+        const percentage = ((moodValue - this.minValue) / (this.maxValue - this.minValue)) * 100;
         const matchingMoodEmoji = this.moodMappings[moodValue]['emoji'];
-        this.sliderRange.setAttribute('mood-emoji', matchingMoodEmoji);
-        this.sliderRange.style.setProperty('--thumb-position', `${percentage}%`);
+
+        this.sliderContainer.setAttribute('data-emoji', matchingMoodEmoji);
+        this.sliderContainer.style.setProperty('--thumb-position', `${percentage}%`);
     }
 
     handleSliderTickDisplay(){
@@ -61,6 +69,12 @@ export class MoodValueSlider {
         const matchingColor = this.moodMappings[moodValue]['colorHex'];
         this.sliderRange.style.setProperty('background-color', matchingColor);
     }
+
+    handleSliderTextDisplay(moodValue){
+        const textBox = document.querySelector('.mood-text');
+        const text = this.moodMappings[moodValue]['text'];
+        textBox.textContent = text;
+    }
   
     // 5. Event handling in one place
     setupEventListeners() {
@@ -70,6 +84,7 @@ export class MoodValueSlider {
         this.handleSliderEmoji(moodValue);
         this.handleSliderBackgroundColor(moodValue);
         this.handleTickStyling(moodValue);
+        this.handleSliderTextDisplay(moodValue);
       });
     }
   }
