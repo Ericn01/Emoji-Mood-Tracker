@@ -10,10 +10,12 @@ export class MoodValueSlider {
       this.maxValue = parseInt(sliderRange.max);
       this.moodValue = parseInt(sliderRange.value); // default value
       this.moodMappings = getMoodValueMappings();
+      // This variable represents the ratio between the range's current value and the max as a position.
+      this.positionPercentage = ((this.moodValue - this.minValue) / (this.maxValue - this.minValue)) * 100;  
       // 2. Set up events
-      this.initializeSlider();
       this.setupEventListeners();
       this.handleSliderTickDisplay();
+      this.initializeSlider();
     }
     // Sets up the default value and the rendering of elements on page load
     initializeSlider(){
@@ -24,11 +26,9 @@ export class MoodValueSlider {
     }
     // 3. Methods other code will use
     handleSliderEmoji(moodValue){
-        const percentage = ((moodValue - this.minValue) / (this.maxValue - this.minValue)) * 100;
         const matchingMoodEmoji = this.moodMappings[moodValue]['emoji'];
-
         this.sliderContainer.setAttribute('data-emoji', matchingMoodEmoji);
-        this.sliderContainer.style.setProperty('--thumb-position', `${percentage}%`);
+        this.sliderContainer.style.setProperty('--thumb-position', `${this.positionPercentage}%`);
     }
 
     handleSliderTickDisplay(){
@@ -67,19 +67,23 @@ export class MoodValueSlider {
 
     handleSliderBackgroundColor(moodValue){
         const matchingColor = this.moodMappings[moodValue]['colorHex'];
-        this.sliderRange.style.setProperty('background-color', matchingColor);
+        this.sliderRange.style.setProperty('--slider-color', matchingColor);
+        this.sliderRange.style.setProperty('--slider-percentage', `${this.positionPercentage}%`);
     }
 
     handleSliderTextDisplay(moodValue){
         const textBox = document.querySelector('.mood-text');
         const text = this.moodMappings[moodValue]['text'];
         textBox.textContent = text;
+
+        textBox.style.setProperty('--text-position', `${this.positionPercentage}%`);
     }
   
     // 5. Event handling in one place
     setupEventListeners() {
       this.sliderRange.addEventListener('input', (event) => {
         const moodValue = parseInt(event.target.value);
+        this.positionPercentage = ((moodValue - this.minValue) / (this.maxValue - this.minValue)) * 100; // update the position
         this.moodValue = moodValue; // update the mood value
         this.handleSliderEmoji(moodValue);
         this.handleSliderBackgroundColor(moodValue);

@@ -58,9 +58,7 @@ submitBtn.addEventListener('click', () => {
             entryNotes: notesInput ? notesInput.value : '', 
         };
 
-        console.log(newMoodEntryData)
         moodLogController.createNewEntry(newMoodEntryData);
-
         // Reset the form
         resetFormValues(selectedEmoji, notesInput);
     }

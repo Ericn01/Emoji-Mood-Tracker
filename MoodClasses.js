@@ -60,6 +60,7 @@ export class MoodStorage{
     deleteEntries(id){
         const entries = this.getEntries();
         delete entries[id];
+        this.saveEntries(entries);
     }
 };
 
@@ -116,8 +117,9 @@ export class MoodFilter{
 
 // Renders a single entry. Also controls adding event listeners.
 export class MoodEntryView {
-    constructor(emojiSelections){
+    constructor(emojiSelections, onDelete){
         this.emojiSelections = emojiSelections;
+        this.onDelete = onDelete;
     }
     // Combines all the rendering methods together
     createEntry(entry, onEdit, onSave, onCancel){
@@ -183,6 +185,7 @@ export class MoodEntryView {
         <button class="edit-btn">Edit</button>
         <button class="save-btn" style="display: none;">Save</button>
         <button class="cancel-btn" style="display: none;">Cancel</button>
+        <button class="delete-btn">Delete</button>
       </div>`
     };
 
@@ -190,23 +193,50 @@ export class MoodEntryView {
         const editBtn = moodEntry.querySelector('.edit-btn');
         const saveBtn = moodEntry.querySelector('.save-btn');
         const cancelBtn = moodEntry.querySelector('.cancel-btn');
+        const deleteBtn = moodEntry.querySelector('.delete-btn');
     
         editBtn.addEventListener('click', () => onEdit(moodEntry));
         saveBtn.addEventListener('click', () => this.handleSave(moodEntry, entry.id, onSave));
         cancelBtn.addEventListener('click', () => onCancel(moodEntry));
+        deleteBtn.addEventListener('click', () => (event) => {
+            event.preventDefault();
+            if (confirm('Are you sure you want to delete this entry?')){
+                this.handleDelete(moodEntry, entry.id);
+            }
+        })
     }
-    
+    handleDelete(moodEntry, entryId) {
+        // Remove the entry from the DOM
+        moodEntry.remove();
+        // Call the controller's delete method
+        this.onDelete(entryId);
+    }
+
     handleSave(moodEntry, entryId, onSave) {
         const form = moodEntry.querySelector('.edit-form');
         const [emojiId, emojiText] = form.querySelector('.edit-emoji').value.split(',');
-        
+        const moodValue = parseFloat(form.querySelector('.edit-mood-value').value);
+
+        // Data validation first
+        if (!emojiId || isNaN(moodValue)) {
+            throw new Error('Invalid form data');
+        }
+
         const updatedValues = {
+          entryDate: new Date(),
           entryMoodEmoji: [emojiId, emojiText],
           entryMoodValue: parseFloat(form.querySelector('.edit-mood-value').value),
           entryMoodNotes: form.querySelector('.edit-note').value
         };
     
         onSave(entryId, updatedValues);
+    }
+
+    handleDelete(moodEntry, entryId) {
+        // Remove the entry from the DOM
+        moodEntry.remove();
+        // Call the controller's delete method
+        this.onDelete(entryId);
     }
 }
 /**
@@ -221,7 +251,7 @@ export class MoodLogController {
         this.container = container;
         this.storage = new MoodStorage();
         this.filter = new MoodFilter();
-        this.entryView = new MoodEntryView(emojiSelections);
+        this.entryView = new MoodEntryView(emojiSelections, (id) => this.handleDelete(id));
         // Load all the entries from local storage
         this.entries = this.loadEntries();
     }
@@ -257,16 +287,25 @@ export class MoodLogController {
     handleEdit(moodEntry){
         moodEntry.classList.add('editing');
 
-        const editBtn = document.querySelector('.edit-btn');
-        const saveBtn = document.querySelector('.save-btn');
-        const cancelBtn = document.querySelector('.cancel-btn');
+        const editBtn = moodEntry.querySelector('.edit-btn');
+        const saveBtn = moodEntry.querySelector('.save-btn');
+        const cancelBtn = moodEntry.querySelector('.cancel-btn');
 
         editBtn.style.display = 'none';
         saveBtn.style.display = 'block';
         cancelBtn.style.display = 'block';
     }
     handleSave(entryID, updatedValues){
-        this.storage.updateEntries(entryID, updatedValues);
+        const entryData = {
+            entryDate: updatedValues.entryDate || new Date(),
+            entryMoodEmoji: updatedValues.entryMoodEmoji,
+            entryMoodValue: updatedValues.entryMoodValue,
+            entryMoodNotes: updatedValues.entryMoodNotes
+        };
+
+        const updatedEntry = new MoodEntry(entryID, entryData);
+
+        this.storage.updateEntries(entryID, updatedEntry.toJSON());
         this.entries = this.loadEntries();
         this.render(); 
     }
@@ -283,14 +322,15 @@ export class MoodLogController {
     }
 
     handleDelete(entryID){
-
+        this.storage.deleteEntries(entryID);
+        this.entries = this.entries.filter( entry => entry.id !== entryID);
+        this.render();
     }
     
     render(){
         this.container.innerHTML = '';
         
         const filteredEntries = this.filter.applyFilters(this.entries);
-        console.log(filteredEntries);
         if (filteredEntries.length === 0){
             this.container.innerHTML = `
             <div class="empty-state">

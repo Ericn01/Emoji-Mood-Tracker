@@ -22,7 +22,8 @@ h1 {
 
 label{
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.12rem;
 }
 
 .empty-state {

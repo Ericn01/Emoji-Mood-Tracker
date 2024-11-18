@@ -42,7 +42,7 @@
   }
   
   /* Color indicators for log items */
- .log-item[data-mood="relaxed"] {
+ .log-item[data-mood="confident"] {
     border-left-color: #a8e6cf;
   }
   .log-item[data-mood="happy"] {
