@@ -10,12 +10,12 @@
 <body>
     <main class="content-container">
         <section class="mood-entry-container">
-            <h1> New Mood Entry </h1>
+            <h1> Add a Mood Entry </h1>
             <article class="new-mood-entry">
                 <section class="entry-box mood-emoji-grid-box">
-                    <label for="emoji-mood-grid"> Select your current mood<span style="color:red;font-weight:bolder;font-size:20px;">*</span> </label>
+                    <label for="emoji-mood-grid"> What's your current mood? <span style="color:red;font-weight:bolder;font-size:20px;">*</span> </label>
                     <ul id="emoji-mood-grid" class="mood-entry-value">
-                        <li class='mood-select' id="relaxed">😎</li>
+                        <li class='mood-select' id="confident">😎</li>
                         <li class='mood-select' id="happy">😊</li>
                         <li class='mood-select'  id="sad">😢</li>
                         <li class='mood-select' id="angry">😡</li>
@@ -23,7 +23,7 @@
                         <li class='mood-select' id="anxious">😨</li>
                     </ul>
                     <article class="emoji-emotion-text">
-                        <label for="great"> Relaxed </label>
+                        <label for="confident"> Confident </label>
                         <label for="happy"> Happy </label>
                         <label for="sad"> Sad </label>
                         <label for="angry"> Angry </label>
@@ -32,13 +32,13 @@
                     </article>
                 </section>
                 <section class="entry-box mood-value-box">
-                    <label for="mood-value"> How Would You Rate Your Mood? <span style="color:red;font-weight:bolder;font-size:20px;">*</span> </label>
+                    <label for="mood-value"> How satisfied do you feel right now? <span style="color:red;font-weight:bolder;font-size:20px;">*</span> </label>
                     <section id="slider-container">
                         <span> <b> 1 </b> </span>
                         <input type="range" name="mood-value" class="mood-entry-value" id="mood-value" min="1.0" max="10.0" step="0.5">
+                        <div class="slider-ticks-group"></div>
                         <span> <b> 10 </b> </span>
                     </section>
-                    <article id="mood-value-modal"></article>
                 </section>
 
                 <section class="entry-box mood-notes-box">
@@ -55,7 +55,7 @@
                 </section>
             </article>
         </section>
-        <h2>Mood History</h2>
+        <h2 class="mood-entries-heading">Mood Journal</h2>
         <section class="mood-logs-section">
             <!-- Filter Controls -->
             <section class="filter-controls">
@@ -78,14 +78,14 @@
                     <section class="range-inputs" id="mood-range-filter">
                         <input type="number" 
                                id="mood-min" 
-                               min="0" 
+                               min="1" 
                                max="10" 
                                step="0.5" 
-                               value="0">
+                               value="1">
                         <span>to</span>
                         <input type="number" 
                                id="mood-max" 
-                               min="0" 
+                               min="1" 
                                max="10" 
                                step="0.5" 
                                value="10">

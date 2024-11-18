@@ -1,13 +1,14 @@
 /* Form input and controls */
 
 #mood-submit-btn{
-    border-radius: 0.75rem;
-    background-color: var(--call-to-action-color);
+    border-radius: 0.8rem;
     font-size: 0.85rem;
     padding: 0.75rem;
     width: 200px;
     margin-top: 0.5rem;
     border: none;
+    box-shadow: 2px 2px 5px black;
+    background-color: #73bd8a;
 }
 
 #mood-submit-btn:hover{
@@ -45,7 +46,7 @@
     -webkit-appearance: none; 
     width: 100%; 
     max-width: 350px; /* Optional, limits the width */
-    height: 10px;
+    height: 12px;
     background: #ccc; 
     border-radius: 8px; 
     outline: none; 
@@ -53,49 +54,62 @@
     border: 1px solid #ccc;
 }
 
-#mood-value::-webkit-slider-thumb {
+#mood-value::-webkit-slider-thumb, #mood-value::-moz-range-thumb {
     -webkit-appearance: none; 
     appearance: none;
-    width: 20px; 
-    height: 20px;
-    background: #007BFF; 
-    border: 2px solid #fff; 
+    width: 28px; 
+    height: 28px;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer; 
-    transition: transform 0.2s ease; 
+    background: none;
+    position: relative;
 }
 
-#mood-value::-moz-range-thumb {
-    width: 20px; 
-    height: 20px;
-    background: #007BFF; 
-    border: 2px solid #fff; 
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer; 
-    transition: transform 0.2s ease; 
+/* Map an emoji to the slider thumb*/
+#mood-value::before{
+    content: attr(mood-emoji);
+    position: absolute;
+    top: -50px; /* Adjust to position above slider */
+    left: calc(var(--thumb-position, 50%) - 20px);
+    font-size: 24px;
 }
 
 #mood-value:hover::-webkit-slider-thumb {
     transform: scale(1.15);
+    cursor: pointer;
 }
 
-/* Mood value modal styling */
+/* Slider ticks styling */
 
-#mood-value-modal{
-    width: 25px;
-    height: 25px;
-    font-size: 14px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 2.5px;
-    font-weight: 700;
-    border: 1px solid black;
-    margin-top: 10px;
-    background-color: var(--primary-color);
-    color: white;
+.slider-ticks-group{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    pointer-events: none;
+}
+
+.slider-tick{
+    position: relative;
+    width: 2px;
+    height: 8px;
+    background-color: #333;
+}
+
+.slider-tick-label{
+    position: absolute;
+    top: 15px;
+    left: -5px;
+    font-size: 0.8rem;
+    color: #333;
     text-align: center;
 }
 
+/* Slider text at that valie*/
+.slider-text{
+    
+}
 
 /* Edit form */

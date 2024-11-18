@@ -1,4 +1,4 @@
-import { getMoodRatingColor } from "./colorMapping.js";
+import { getMoodRatingColor } from "./mappings.js";
 
 /** 
  * Represents a single mood entry

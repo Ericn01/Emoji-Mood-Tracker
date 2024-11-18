@@ -1,9 +1,16 @@
 import { MoodLogController } from "./MoodClasses.js";
+import { MoodValueSlider } from "./MoodValueSlider.js";
 
 // Initialize elements
 const moodEmojiSelections = document.querySelectorAll('.mood-select');
 const moodEntryLogs = document.querySelector('.mood-entry-logs');
+const warningMessage = document.querySelector('.warning-message');
+const submitBtn = document.querySelector('#mood-submit-btn');
+const moodEmojiList = document.querySelectorAll('.mood-select');
+const moodValueSlider = document.querySelector('#mood-value');
+
 const moodLogController = new MoodLogController(moodEntryLogs, moodEmojiSelections); // Controller for mood log stuff
+const sliderController = new MoodValueSlider(document.querySelector('.slider-container'), moodValueSlider);
 
 // Set up filter controls
 const setupMoodLogFilterControls = () => {
@@ -29,11 +36,6 @@ const setupMoodLogFilterControls = () => {
     });
 }
 
-// Retrieving the desired HTML elements
-const warningMessage = document.querySelector('.warning-message');
-const submitBtn = document.querySelector('#mood-submit-btn');
-const moodEmojiList = document.querySelectorAll('.mood-select');
-const moodValueSlider = document.querySelector('#mood-value')
 // Adding an event listener to the new mood entry button 
 submitBtn.addEventListener('click', () => {
     const moodSliderValue = parseFloat(moodValueSlider.value);
@@ -92,7 +94,6 @@ const selectMoodEmoji = () => {
         });
     });
 }
-
 
 selectMoodEmoji();
 // Initial render

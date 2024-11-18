@@ -9,7 +9,7 @@
 }
 
 .mood-entry-container {
-    width: 60%;
+    width: min-content;
     max-width: 650px;
     border-radius: 1.5rem;
     box-shadow: 0px 3px 15px rgba(0,0,0,0.15);

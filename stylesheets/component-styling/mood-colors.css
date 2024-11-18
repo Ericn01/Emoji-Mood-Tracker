@@ -1,8 +1,8 @@
  /* Color mapping for each mood */
- #relaxed {
+ #confident {
     background-color: #a8e6cf; /* Soft mint green - calming and peaceful */
   }
-  #relaxed:hover {
+  #confident:hover {
     background-color: #8ed7c0;
   }
   
@@ -41,8 +41,7 @@
     background-color: #ffd588;
   }
   
-
-   /* Color indicators for log items */
+  /* Color indicators for log items */
  .log-item[data-mood="relaxed"] {
     border-left-color: #a8e6cf;
   }

@@ -1,4 +1,8 @@
 /* Modern list view styling for mood entries */
+.mood-entries-heading{
+    margin-left: 2rem;
+}
+
 .mood-entry-logs {
     max-width: 800px;
     margin: 2rem auto;
