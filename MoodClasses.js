@@ -74,10 +74,19 @@ export class MoodFilter{
             selectedEmojis: [], 
         };
     }
+    /**
+     * Updates the value of a filter type
+     * @param {*} type the filter key --> one of (date, value, emoji)
+     * @param {*} value the updated value for the selected filter attribute
+     */
     setFilter(type, value){
         this.filters[type] = value;
     }
-
+    /**
+     * 
+     * @param {*} entries 
+     * @returns 
+     */
     applyFilters(entries){
         return entries.filter( (entry) => 
             this.dateFilter(entry) && 
@@ -85,7 +94,11 @@ export class MoodFilter{
             this.emojiFilter(entry)
         );
     }
-    // Logic to filter by date
+    /**
+     * Filters the mood entries by their date
+     * @param {*} entry an instance of MoodEntry
+     * @returns the new date range for entries
+     */
     dateFilter(entry){
         const date = new Date(entry.date);
         const now = new Date();
@@ -109,7 +122,11 @@ export class MoodFilter{
         const { min, max } = this.filters.moodRangeValue; 
         return moodValue <= max && moodValue >= min; 
     }
-    // Emoji filtering 
+    /**
+     * Applies the emoji filtering to log entries
+     * @param {*} entry an instance of MoodEntry
+     * @returns the new emoji filter selection
+     */
     emojiFilter(entry){
         const emojiSelection = entry.emojiMood[0]; 
         return this.filters.selectedEmojis.length === 0 || this.filters.selectedEmojis.includes(emojiSelection);
@@ -122,7 +139,13 @@ export class MoodEntryView {
         this.emojiSelections = emojiSelections;
         this.modalManager = new ModalManager();
     }
-    // Combines all the rendering methods together
+    /**
+     * 
+     * @param {*} entry An instance of the MoodEntry class
+     * @param {*} onEdit the method that handles the editing of the values in a mood entry
+     * @param {*} onDelete the method that handles the deletion of a mood entry 
+     * @returns The HTML (presentation) of a MoodEntry
+     */
     createEntry(entry, onEdit, onDelete){
         const moodEntryHTML = document.createElement('article');
         moodEntryHTML.className = 'log-item';
@@ -135,6 +158,11 @@ export class MoodEntryView {
 
         return moodEntryHTML;
     }
+    /**
+     * 
+     * @param {*} entry An instance of the MoodEntry class
+     * @returns 
+     */
     getTemplate(entry){
         const noteOverflow = entry.notes.length >= 55;
         const entryNotesSubstring = noteOverflow ? `${entry.notes.substring(0, 55)}...` : entry.notes;
@@ -153,7 +181,11 @@ export class MoodEntryView {
         </section>
         `;
     }
-
+    /**
+     * Adds a background color to the mood rating value.
+     * @param {*} moodEntry The HTML element that presents the mood data
+     * @param {*} entry An instance of the MoodEntry class
+     */
     colorLogMoodValue(moodEntry, entry){
         const logMoodValue = moodEntry.querySelector('.log-mood-value');
         if (logMoodValue){
@@ -161,6 +193,13 @@ export class MoodEntryView {
         } else {console.log('The specified element doesn\'t exit')}
     }
 
+    /**
+     * 
+     * @param {*} moodEntry the HTML element that presents the mood data
+     * @param {*} entry An instance of the MoodEntry class
+     * @param {*} onEdit editing function handler
+     * @param {*} onDelete delete function handler
+     */
     addControlsEventListeners(moodEntry, entry, onEdit, onDelete) {
         const editBtn = moodEntry.querySelector('.edit-btn');
         const deleteBtn = moodEntry.querySelector('.delete-btn');
@@ -168,7 +207,11 @@ export class MoodEntryView {
         editBtn.addEventListener('click', () => this.showEditModal(entry, onEdit));
         deleteBtn.addEventListener('click', () => this.showDeleteModal(entry, onDelete));
     }
-
+    /**
+     * Method that defines and returns the template for the modal screens when a user edits a mood entry.
+     * @param {*} entry An instance of the MoodEntry class.
+     * @returns HTML template for the editing modal screen
+     */
     getEditModalTemplate(entry){
         return `
         <div class="modal-overlay">
@@ -217,7 +260,11 @@ export class MoodEntryView {
         </div>
         </div>`
     }
-
+    /**
+     * Defines and returns the HTML for the entry deletion confirmation modal.
+     * @param {*} entry An instance of the MoodEntry class.
+     * @returns HTML template for the deletion completion modal screen.
+     */
     getDeleteConfirmationTemplate(entry) {
         return `
         <div class="modal-overlay delete-confirm">
@@ -241,6 +288,11 @@ export class MoodEntryView {
         </div>`;
     }
 
+    /**
+     * Logic for presenting a modal screen.
+     * @param {*} entry An instance of the MoodEntry class
+     * @param {*} onSave 
+     */
     showEditModal(entry, onSave) {
         const modalHTML = this.getEditModalTemplate(entry);
         const modal = this.modalManager.showModal(modalHTML, () => {
@@ -266,7 +318,11 @@ export class MoodEntryView {
             onSave(entry.id, updatedValues);
         });
     }
-
+    /**
+     * Logic for presenting the entry deletion confirmation modal screen.
+     * @param {*} entry An instance of the MoodEntry class.
+     * @param {*} onDelete The logic for deleting an instance of the class.
+     */
     showDeleteModal(entry, onDelete) {
         const modalHTML = this.getDeleteConfirmationTemplate(entry);
         this.modalManager.showModal(modalHTML, () => onDelete(entry.id));
@@ -306,17 +362,29 @@ export class MoodLogController {
         this.entries = this.loadEntries();
         this.render();
     }
-
+    /**
+     * Loads the mood entries data and creates instances of the MoodEntry class.  
+     * @returns An array of instances of the MoodEntry class.
+     */
     loadEntries(){
         const data = this.storage.getEntries();
         return Object.entries(data).map(([id, entry]) => new MoodEntry(id, entry));
     }
 
+    /**
+     * Adds new filter parameters and re-renders the mood list.
+     * @param {*} type the current filtering type 
+     * @param {*} value 
+     */
     handleSetFilter(type, value){
         this.filter.setFilter(type, value);
         this.render();
     }
-
+    /**
+     * 
+     * @param {*} entryId 
+     * @param {*} updatedValues 
+     */
     handleEdit(entryId, updatedValues) {
         const entryData = {
             entryDate: updatedValues.entryDate,
@@ -330,12 +398,20 @@ export class MoodLogController {
         this.render();
     }
 
+    /**
+     * Removes entries from localStorage and re-renders the mood list. 
+     * @param {*} entryId the ID of the entry to be removed.
+     */
     handleDelete(entryId) {
         this.storage.deleteEntries(entryId); // Using the existing method name
         this.entries = this.loadEntries();
         this.render();
     }
     
+    /**
+     * Renders the list of filtered entries by most recent date and appends them as HTML elements. If none exist, then a different HTML element is rendered (empty state) to notify the user that
+     * @returns An HTML element containing the filtered and sorted mood entries.
+     */
     render(){
         this.container.innerHTML = '';
         

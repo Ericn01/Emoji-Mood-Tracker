@@ -10,7 +10,7 @@ const moodEmojiList = document.querySelectorAll('.mood-select');
 const moodValueSlider = document.querySelector('#mood-value');
 
 const moodLogController = new MoodLogController(moodEntryLogs, moodEmojiSelections); // Controller for mood log stuff
-const sliderController = new MoodValueSlider(document.querySelector('#slider-container'), moodValueSlider);
+new MoodValueSlider(document.querySelector('#slider-container'), moodValueSlider);
 
 // Set up filter controls
 const setupMoodLogFilterControls = () => {
