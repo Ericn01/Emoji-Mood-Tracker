@@ -104,17 +104,16 @@ export const generateTestMoodEntries = (numberOfDays = 60) => {
             }
 
             const notes = notesList[Math.floor(Math.random() * notesList.length)];
-
-            entries.push({
-                id: `entry_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                date: currentDate.toISOString(),
-                emojiMood: emojiMood,
-                moodValue: moodValue,
-                notes: Math.random() < 0.8 ? notes : '', // 80% chance of having notes
-            });
+            const moodData = {
+                entryDate: currentDate,
+                entryMoodEmoji: emojiMood,
+                entryMoodValue: moodValue,
+                entryMoodNotes: Math.random() < 0.8 ? notes : ''
+            }
+            entries.push(moodData);
         }
     }
 
     // Sort entries by date
-    return entries.sort((a, b) => new Date(a.date) - new Date(b.date));
+    return entries.sort((a, b) => new Date(a.entryDate) - new Date(b.entryDate));
 };

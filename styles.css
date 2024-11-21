@@ -1,13 +1,38 @@
-@import 'stylesheets/base.css';
-@import 'stylesheets/layout.css';
-@import 'stylesheets/component-styling/mood-selector.css';
-@import 'stylesheets/component-styling/mood-colors.css';
-@import 'stylesheets/component-styling/form-elements.css';
-@import 'stylesheets/component-styling/log-entries.css';
-@import 'stylesheets/component-styling/edit-controls.css';
-@import 'stylesheets/component-styling/notifications.css';
-@import 'stylesheets/utilities.css'; 
-@import 'stylesheets/component-styling/log-filters.css';
-@import 'stylesheets/component-styling/modal-screens.css';
-@import 'stylesheets/component-styling/charts.css';
+/* Importing all the stylesheets */
+
+/* Page layout, root element definitions, body styling, and miscellaneous stylesheets*/
+@import './stylesheets/base.css';
+@import './stylesheets/layout.css';
+@import './stylesheets/utilities.css'; 
+
+/* Dashboard section styling */
+@import './stylesheets/component-styling/dashboard.css';
+
+
+/* Modal Screen Styling */
+@import './stylesheets/component-styling/modal-screens.css'; /* Defines the style of the various modal screens*/
+@import './stylesheets/component-styling/edit-controls.css'; /* Styling for the edit, save, cancel and delete buttons */
+
+
+/* Mood entry form styling sheets*/
+@import './stylesheets/component-styling/form-elements.css'; /* Defines styling for the entire mood entry form */
+@import './stylesheets/component-styling/mood-selector.css'; /* Defines styling for the emoji grid */
+@import './stylesheets/component-styling/mood-colors.css'; /* Assigns a color to each mood element */
+
+
+/* Styles for a log entry */
+@import './stylesheets/component-styling/log-entries.css';
+
+
+@import './stylesheets/component-styling/notifications.css';
+@import './stylesheets/component-styling/log-filters.css'; /* */
+
+/* Chart styling */
+@import './stylesheets/component-styling/charts.css';
+
+/* Header styling*/
+@import './stylesheets/component-styling/header.css';
+
+/* Calendar styling */
+@import './stylesheets/component-styling/calendar.css';
 

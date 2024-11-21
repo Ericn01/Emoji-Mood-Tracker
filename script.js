@@ -2,6 +2,7 @@ import { MoodLogController } from "./MoodClasses.js";
 import { MoodValueSlider } from "./MoodValueSlider.js";
 import { MoodTrendsChart } from "./MoodCharts.js";
 import { generateTestMoodEntries } from "./test/testingEntries.js";
+import { renderCalendarMonth, getMonthCalendarData } from "./Calendar.js";
 
 // Initialize elements
 const moodEmojiSelections = document.querySelectorAll('.mood-select');
@@ -10,17 +11,27 @@ const warningMessage = document.querySelector('.warning-message');
 const submitBtn = document.querySelector('#mood-submit-btn');
 const moodEmojiList = document.querySelectorAll('.mood-select');
 const moodValueSlider = document.querySelector('#mood-value');
+// Month Calendar HTML element
+const monthContainer = document.querySelector('.calendar-container');
 // Retrieving the chart canvas
 const trendsChartCanvas = document.querySelector("#mood-value-trend-chart");
 
+// Controllers
 const moodLogController = new MoodLogController(moodEntryLogs, moodEmojiSelections); // Controller for mood log + filtering section.
 new MoodValueSlider(document.querySelector('#slider-container'), moodValueSlider); // Controller for the mood value slider.
 
 // Generating the trends chart.
-const testEntries = generateTestMoodEntries(75); // Generate 75 random mood entries 
+const testEntries = moodLogController.loadUserDefinedEntries(generateTestMoodEntries(75)); // Generating 75 random entries 
 const trendsChart = new MoodTrendsChart(trendsChartCanvas);
+
+// Initialize the charts
 trendsChart.initialize(testEntries)
 trendsChart.render(); // render the trends chart
+
+// Create the calendar
+const currentDate = new Date();
+const monthCalendarData = getMonthCalendarData(currentDate, testEntries);
+monthContainer.appendChild(renderCalendarMonth(monthCalendarData, currentDate));
 
 // Adding event listener to the period change buttons
 const periodButtons = document.querySelectorAll('.period-btn');

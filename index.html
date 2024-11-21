@@ -9,19 +9,186 @@
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-    <main class="content-container">
-        <section class="chart-container">
-            <section class="trends-chart">
-                <div class="chart-controls">
-                    <button data-period="daily" class="period-btn">Daily</button>
-                    <button data-period="weekly" class="period-btn active">Weekly</button>
-                    <button data-period="monthly" class="period-btn">Monthly</button>
-                </div>
-                <div class="chart-wrapper">
-                    <canvas id="mood-value-trend-chart"></canvas>
-                </div>
+    <!-- Header Section -->
+    <header class="app-header">
+        <section class="header-content">
+            <section class="logo-section">
+                <span class="logo-emoji" id="logo-picture">📊</span>
+                <h1 class="logo-text">YouInsights</h1>
+            </section>
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="#dashboard">
+                            <img src="./images/dashboard.png" alt="dashboard icon"  class="header-img"/>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#insights">
+                            <img src="./images/insights.png" alt="insights icon"  class="header-img"/>
+                            Insights
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#calendar">
+                            <img src="./images/calendar.png" alt="calendar icon" class="header-img"/>
+                            Calendar
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <section class="header-actions">
+                <button class="header-action theme-toggle" aria-label="Toggle theme">
+                    <img src="./images/theme.png" alt="Theme selection"  class="header-img"/>
+                    Themes
+                </button>
+                <button class="header-action profile-button" aria-label="User profile">
+                    <img src="./images/user.png"  alt="User profile icon"  class="header-img"/>
+                    Sign Up
+                </button>
             </section>
         </section>
+    </header>
+    <!-- Main content container section -->
+    <main class="content-container">
+        <section class="dashboard-container">
+            <!-- Quick Add Section -->
+            <aside class="quick-add-panel">
+                <div class="panel-header">
+                    <h2>Quick Add Entry</h2>
+                    <button class="expand-form-btn" title="Expand to full form">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="compact-mood-form">
+                    <!-- Simplified version of the existing form -->
+                    <div class="emoji-quick-select">
+                        <label>Mood</label>
+                        <div class="emoji-grid">
+                            <button class="emoji-btn" data-mood="confident">😎</button>
+                            <button class="emoji-btn" data-mood="happy">😊</button>
+                            <button class="emoji-btn" data-mood="sad">😢</button>
+                            <button class="emoji-btn" data-mood="angry">😡</button>
+                            <button class="emoji-btn" data-mood="sleepy">😴</button>
+                            <button class="emoji-btn" data-mood="anxious">😨</button>
+                        </div>
+                    </div>
+                    <div class="quick-slider">
+                        <label>Rating</label>
+                        <input type="range" min="1" max="10" value="5" class="mood-slider">
+                        <span class="slider-value">5</span>
+                    </div>
+                    <button class="quick-submit">Add Entry</button>
+                </div>
+            </aside>
+        
+            <!-- Main Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Stats Overview -->
+                <section class="stats-overview">
+                    <div class="stat-card current-streak">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-info">
+                            <h3>Current Streak</h3>
+                            <p class="stat-value">7 days</p>
+                        </div>
+                    </div>
+                    <div class="stat-card avg-mood">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <h3>Weekly Average</h3>
+                            <p class="stat-value">7.5</p>
+                        </div>
+                    </div>
+                    <div class="stat-card total-entries">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-info">
+                            <h3>Total Entries</h3>
+                            <p class="stat-value">42</p>
+                        </div>
+                    </div>
+                    <div class="stat-card most-frequent">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <h3>Most Frequent</h3>
+                            <p class="stat-value">😊 Happy</p>
+                        </div>
+                    </div>
+                </section>
+        
+                <!-- Main Chart -->
+                <section class="mood-trends-chart">
+                    <div class="chart-header">
+                        <h2>Mood Trends</h2>
+                        <div class="chart-controls">
+                            <button data-period="daily" class="period-btn">Daily</button>
+                            <button data-period="weekly" class="period-btn active">Weekly</button>
+                            <button data-period="monthly" class="period-btn">Monthly</button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="mood-value-trend-chart"></canvas>
+                    </div>
+                </section>
+        
+                <!-- Recent Entries -->
+                <section class="recent-entries">
+                    <div class="section-header">
+                        <h2>Recent Entries</h2>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="entries-list">
+                        <!-- Entries will be populated dynamically -->
+                    </div>
+                </section>
+        
+                <!-- Mood Patterns -->
+                <section class="mood-patterns">
+                    <div class="pattern-card time-of-day">
+                        <h3>Time of Day Patterns</h3>
+                        <div class="pattern-chart">
+                            <!-- Small chart showing mood variations by time -->
+                        </div>
+                    </div>
+                    <div class="pattern-card day-of-week">
+                        <h3>Day of Week Patterns</h3>
+                        <div class="pattern-chart">
+                            <!-- Small chart showing mood variations by day -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        
+            <!-- Side Panel -->
+            <aside class="dashboard-side-panel">
+                <!-- Mood Calendar -->
+                <div class="mini-calendar">
+                    <h3>Mood Calendar</h3>
+                    <div class="calendar-grid">
+                        <!-- Calendar will be populated dynamically -->
+                    </div>
+                </div>
+        
+                <!-- Suggestions -->
+                <div class="mood-insights">
+                    <h3>Insights</h3>
+                    <ul class="insights-list">
+                        <li class="insight-item">
+                            <span class="insight-icon">💡</span>
+                            <p>Your mood tends to be higher on weekends</p>
+                        </li>
+                        <li class="insight-item">
+                            <span class="insight-icon">⭐</span>
+                            <p>Best mood times are typically mornings</p>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </section>
+        <section class="calendar-container"></section>
         <section class="mood-entry-container">
             <h1> Add a Mood Entry </h1>
             <article class="new-mood-entry">

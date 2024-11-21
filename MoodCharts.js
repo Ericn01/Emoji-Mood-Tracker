@@ -46,7 +46,7 @@ export class MoodTrendsChart {
                     title: {
                         display: true,
                         text: `${this.currentPeriod.charAt(0).toUpperCase()}${this.currentPeriod.slice(1,)} Mood Trends`, // Capitalize the current period string
-                        align: 'center',
+                        align: 'start',
                         padding: 10,
                         font: {
                             size: 14,

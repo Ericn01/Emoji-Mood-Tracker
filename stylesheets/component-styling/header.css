@@ -1,0 +1,92 @@
+.app-header{
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+}
+
+.header-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+#logo-picture{
+    font-size: 28px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.main-nav{
+    flex: 1;
+}
+
+.nav-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-item a, .header-action {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #656;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.nav-item.active a {
+    color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.nav-item:not(.active) a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.nav-item img {
+    transition: transform 0.2s ease;
+}
+
+.nav-item:hover img {
+    transform: scale(1.07);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-actions button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #656;
+    transition: all 0.2s ease;
+}
+
+.header-actions button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.header-img{
+    width: 32px;
+}

@@ -370,6 +370,11 @@ export class MoodLogController {
         const data = this.storage.getEntries();
         return Object.entries(data).map(([id, entry]) => new MoodEntry(id, entry));
     }
+    
+    // ========== PURELY A TESTING FUNCTION =============
+    loadUserDefinedEntries(userDefinedEntries){
+        return Object.values(userDefinedEntries).map( (entry) => new MoodEntry(Date.now(), entry));
+    }
 
     /**
      * Adds new filter parameters and re-renders the mood list.
