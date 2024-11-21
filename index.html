@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Emoji Mood Tracker </title>
     <script src="script.js" type='module' defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
     <main class="content-container">
+        <section class="chart-container">
+            <section class="trends-chart">
+                <div class="chart-controls">
+                    <button data-period="daily" class="period-btn">Daily</button>
+                    <button data-period="weekly" class="period-btn active">Weekly</button>
+                    <button data-period="monthly" class="period-btn">Monthly</button>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="mood-value-trend-chart"></canvas>
+                </div>
+            </section>
+        </section>
         <section class="mood-entry-container">
             <h1> Add a Mood Entry </h1>
             <article class="new-mood-entry">

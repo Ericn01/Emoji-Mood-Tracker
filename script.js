@@ -1,5 +1,7 @@
 import { MoodLogController } from "./MoodClasses.js";
 import { MoodValueSlider } from "./MoodValueSlider.js";
+import { MoodTrendsChart } from "./MoodCharts.js";
+import { generateTestMoodEntries } from "./test/testingEntries.js";
 
 // Initialize elements
 const moodEmojiSelections = document.querySelectorAll('.mood-select');
@@ -8,9 +10,30 @@ const warningMessage = document.querySelector('.warning-message');
 const submitBtn = document.querySelector('#mood-submit-btn');
 const moodEmojiList = document.querySelectorAll('.mood-select');
 const moodValueSlider = document.querySelector('#mood-value');
+// Retrieving the chart canvas
+const trendsChartCanvas = document.querySelector("#mood-value-trend-chart");
 
-const moodLogController = new MoodLogController(moodEntryLogs, moodEmojiSelections); // Controller for mood log stuff
-new MoodValueSlider(document.querySelector('#slider-container'), moodValueSlider);
+const moodLogController = new MoodLogController(moodEntryLogs, moodEmojiSelections); // Controller for mood log + filtering section.
+new MoodValueSlider(document.querySelector('#slider-container'), moodValueSlider); // Controller for the mood value slider.
+
+// Generating the trends chart.
+const testEntries = generateTestMoodEntries(75); // Generate 75 random mood entries 
+const trendsChart = new MoodTrendsChart(trendsChartCanvas);
+trendsChart.initialize(testEntries)
+trendsChart.render(); // render the trends chart
+
+// Adding event listener to the period change buttons
+const periodButtons = document.querySelectorAll('.period-btn');
+periodButtons.forEach( (periodBtn) => {
+    periodBtn.addEventListener('click', (event) => {
+        // Update active button state
+        periodButtons.forEach(btn => btn.classList.remove('active')); // Remove the active state from all buttons.
+        event.target.classList.add('active'); // Add the active class to the button that was clicked.
+
+        const newPeriod = event.target.dataset.period; // making use of the 'data' HTML attribute
+        trendsChart.updatePeriod(newPeriod);
+    });
+});
 
 // Set up filter controls
 const setupMoodLogFilterControls = () => {

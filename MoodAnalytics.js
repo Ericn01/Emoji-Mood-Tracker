@@ -1,8 +1,5 @@
-
-import { generateTestMoodEntries } from './test/testingEntries.js'
-
 // Analytics class to handle all chart-related data processing
-class MoodAnalytics {
+export class MoodAnalytics {
     constructor(entries) {
         this.entries = entries;
     }
@@ -264,20 +261,3 @@ class MoodAnalytics {
         };
     }
 }
-
-
-// Generate random mood entries
-const moodEntries = generateTestMoodEntries();
-// Usage example:
-const analytics = new MoodAnalytics(moodEntries);
-
-// Get various analytics
-const trends = analytics.getAverageMoodTrends();
-const distribution = analytics.getMoodDistribution();
-const timePatterns = analytics.getTimeOfDayPatterns();
-const notesAnalysis = analytics.getNotesAnalysis();
-const statistics = analytics.getStatistics();
-
-const analyticsData = [trends, distribution, timePatterns, notesAnalysis, statistics];
-
-analyticsData.forEach( (dataObj) => console.log(dataObj));
