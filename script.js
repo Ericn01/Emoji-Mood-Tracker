@@ -93,7 +93,7 @@ const selectMoodEmoji = () => {
     });
 }
 
-selectMoodEmoji();
+selectMoodEmoji(); // Changes the mood emoji selection
 // Initial render
 setupMoodLogFilterControls()
 moodLogController.render();

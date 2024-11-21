@@ -140,7 +140,7 @@ export class MoodEntryView {
         this.modalManager = new ModalManager();
     }
     /**
-     * 
+     * Creates a new mood entry.
      * @param {*} entry An instance of the MoodEntry class
      * @param {*} onEdit the method that handles the editing of the values in a mood entry
      * @param {*} onDelete the method that handles the deletion of a mood entry 
