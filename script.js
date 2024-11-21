@@ -2,7 +2,7 @@ import { MoodLogController } from "./MoodClasses.js";
 import { MoodValueSlider } from "./MoodValueSlider.js";
 import { MoodTrendsChart } from "./MoodCharts.js";
 import { generateTestMoodEntries } from "./test/testingEntries.js";
-import { renderCalendarMonth, getMonthCalendarData } from "./Calendar.js";
+import { MoodCalendar, MoodCalendarData } from "./Calendar.js";
 
 // Initialize elements
 const moodEmojiSelections = document.querySelectorAll('.mood-select');
@@ -30,8 +30,9 @@ trendsChart.render(); // render the trends chart
 
 // Create the calendar
 const currentDate = new Date();
-const monthCalendarData = getMonthCalendarData(currentDate, testEntries);
-monthContainer.appendChild(renderCalendarMonth(monthCalendarData, currentDate));
+const calendarData = new MoodCalendarData(testEntries, currentDate); 
+const monthData = calendarData.getMonthCalendarData(currentDate);
+new MoodCalendar(monthData, monthContainer, currentDate);
 
 // Adding event listener to the period change buttons
 const periodButtons = document.querySelectorAll('.period-btn');
